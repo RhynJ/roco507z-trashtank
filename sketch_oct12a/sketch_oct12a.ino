@@ -1,14 +1,21 @@
 int directionPin = 12;
 int pwmPin = 3;
 int brakePin = 9;
-
-//uncomment if using channel B, and remove above definitions
-//int directionPin = 13;
-//int pwmPin = 11;
-//int brakePin = 8;
+int directionPin = 13;
+int pwmPin = 11;
+int brakePin = 8;
 
 //boolean to switch direction
 bool directionState;
+
+
+
+void goForward (void);
+void goBackwards(void);
+void turnLeft(void);
+void turnRight(void);
+
+
 
 void setup() {
   
