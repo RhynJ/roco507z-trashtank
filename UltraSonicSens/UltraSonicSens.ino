@@ -1,3 +1,5 @@
+#include <string.h>
+
 const int triggerPin = 10;
 const int echoPin = 2; // Echo pin must be connected to an interrupt-capable pin (like 2 or 3 on an Uno)
 
@@ -7,8 +9,6 @@ const int rightMotorPin = 3;
 //left motor pins
 const int leftDirectionPin = 13;
 const int leftMotorPin = 11;
-
-volatile long startTime = 0;
 volatile long echoDuration = 0;
 const long distanceThreshold = 10;  // Set your distance threshold in cm
 
@@ -19,14 +19,14 @@ void rightBackwards();
 void leftBackwards();
 void goForward (void);
 void goBackwards(void);
-void turnLeft(void);
+void turnLeft(void); 
 void turnRight(void);
 void turnOffMotor(void);
 void slightLeft(void);
 void slightRight(void);
 
-void motorControl(unsigned int);
-
+void motorControl(string);
+unsigned int currentDirection = 0;
 
 void setup() {
   //pin set up for motor
@@ -47,13 +47,13 @@ void loop() {
   // Send a 10us pulse to the trigger pin to initiate the measurement
   digitalWrite(triggerPin, LOW);
   delayMicroseconds(2);
-  digitalWrite(triggerPin, HIGH);
+  digitalWrite(triggerPin, HIGH); 
   delayMicroseconds(10);
   digitalWrite(triggerPin, LOW);
   
   // Wait for the measurement to complete (the interrupt will update echoDuration)
   delay(100);
-  
+
   // Calculate the distance in cm (duration in microseconds, speed of sound ~343m/s)
   long distance = (echoDuration * 0.0343) / 2;
   
@@ -74,6 +74,10 @@ void distanceThresholdBroken() {
   // Actions to take when the distance threshold is crossed
   Serial.println("Threshold crossed! Taking action...");
   // You can add other actions here, like turning on a buzzer or LED
+  motorControl(0);
+
+  //add decision code here to decide what to do this can be done using the currect direction to back away from a wall
+
 }
 
 void echoISR() {
@@ -88,7 +92,7 @@ void echoISR() {
 }
 
 //0 = stop, 1 = forward, 2 = reverse, 3 = left, 4 = right, 5 = slight left, 6 = slight right 
-void motorControl(int control)
+void motorControl(unsigned int control)
 {
   // Use a switch-case structure to handle different motor controls
   switch(control)
@@ -96,45 +100,52 @@ void motorControl(int control)
     case 0:
       // Stop the motor
       turnOffMotor();
+      currentDirection = 0;
       break;
 
     case 1:
       // Move forward
       goForward();
+      currentDirection = 1;
       break;
 
     case 2:
       // Move in reverse
       goBackwards();
+      currentDirection = 2;
       break;
 
     case 3:
       // Turn left
       turnLeft();
+      currentDirection = 3;
       break;
 
     case 4:
       // Turn right
       turnRight();
+      currentDirection = 4;
       break;
 
     case 5:
-      // Slight left
+      // Slight left  needed
       slightLeft();
+      currentDirection = 5;
       break;
 
     case 6:
       // Slight right
       slightRight();
+      currentDirection = 6;
       break;
 
     default:
       // If an invalid control is passed, stop the motor as a safe action
       turnOffMotor();
+      currentDirection = 0;
       break;
   }
 }
-
 
 
 void rightForwards(void)
@@ -148,7 +159,6 @@ void leftForwards(void)
   digitalWrite(leftDirectionPin, LOW);
   digitalWrite(leftMotorPin, HIGH);
 }
- 
  
 void rightBackwards()
 {
