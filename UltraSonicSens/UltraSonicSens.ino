@@ -1,4 +1,4 @@
-const int triggerPin = 9;
+const int triggerPin = 10;
 const int echoPin = 2; // Echo pin must be connected to an interrupt-capable pin (like 2 or 3 on an Uno)
 volatile long startTime = 0;
 volatile long echoDuration = 0;
