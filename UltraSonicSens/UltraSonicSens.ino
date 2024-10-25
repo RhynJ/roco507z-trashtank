@@ -11,6 +11,7 @@ const int leftDirectionPin = 13;
 const int leftMotorPin = 11;
 volatile long echoDuration = 0;
 const long distanceThreshold = 10;  // Set your distance threshold in cm
+unsigned long startTime = 0;
 
 //motor functions this can be moved to a header file to clear up the main
 void rightForward(void);
@@ -25,7 +26,7 @@ void turnOffMotor(void);
 void slightLeft(void);
 void slightRight(void);
 
-void motorControl(string);
+void motorControl(unsigned int);
 unsigned int currentDirection = 0;
 
 void setup() {
@@ -213,7 +214,7 @@ void slightRight()
 void slightLeft()
 {
     leftForward();
-    DigitalWrite(rightMotorPin, LOW);
+    digitalWrite(rightMotorPin, LOW);
 }
 
  
