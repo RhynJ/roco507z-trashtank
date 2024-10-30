@@ -18,8 +18,6 @@ void turnRight(void);
 void turnOffMotor(void);
 void slightLeft(void);
 void slightRight(void);
-
-
 void motorControl(unsigned int);
 
 

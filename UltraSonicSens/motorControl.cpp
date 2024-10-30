@@ -7,8 +7,7 @@ const int rightMotorPin = 3;
 //left motor pins
 const int leftDirectionPin = 13;
 const int leftMotorPin = 11;
-
-
+unsigned int currentDirection = 0;
 
 
 
@@ -19,8 +18,6 @@ void motorSetUp(void)
   pinMode(leftDirectionPin, OUTPUT);
   pinMode(leftMotorPin, OUTPUT);
 }
-
-
 
 
 void rightForwards(void)
@@ -90,4 +87,61 @@ void slightLeft(void)
     leftForwards();
     digitalWrite(rightMotorPin, LOW);
 }
+
+void motorControl(unsigned int control)
+{
+  // Use a switch-case structure to handle different motor controls
+  switch(control){
+    case 0:
+      // Stop the motor
+      turnOffMotor();
+      currentDirection = 0;
+      break;
+
+    case 1:
+      // Move forward
+      goForward();
+      currentDirection = 1;
+      break;
+
+    case 2:
+      // Move in reverse
+      goBackwards();
+      currentDirection = 2;
+      break;
+
+    case 3:
+      // Turn left
+      turnLeft();
+      currentDirection = 3;
+      break;
+
+    case 4:
+      // Turn right
+      turnRight();
+      currentDirection = 4;
+      break;
+
+    case 5:
+      // Slight left
+      // Slight left  needed
+      slightLeft();
+      currentDirection = 5;
+      break;
+
+    case 6:
+      // Slight right
+      slightRight();
+      currentDirection = 6;
+      break;
+
+    default:
+      // If an invalid control is passed, stop the motor as a safe action
+      turnOffMotor();
+      currentDirection = 0;
+      break;
+    }
+}
+
+
 
