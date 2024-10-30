@@ -1,40 +1,24 @@
 #include <string.h>
+#include "motorControl.h"
 
 const int triggerPin = 10;
 const int echoPin = 2; // Echo pin must be connected to an interrupt-capable pin (like 2 or 3 on an Uno)
 
-//right motor pins
-const int rightDirectionPin = 12;
-const int rightMotorPin = 3; 
-//left motor pins
-const int leftDirectionPin = 13;
-const int leftMotorPin = 11;
+
 volatile long echoDuration = 0;
 const long distanceThreshold = 10;  // Set your distance threshold in cm
 unsigned long startTime = 0;
+unsigned int currentDirection = 0;
 
-//motor functions this can be moved to a header file to clear up the main
-void rightForward(void);
-void leftForward(void);
-void rightBackwards();
-void leftBackwards();
-void goForward (void);
-void goBackwards(void);
-void turnLeft(void); 
-void turnRight(void);
-void turnOffMotor(void);
-void slightLeft(void);
-void slightRight(void);
+
 
 void motorControl(unsigned int);
-unsigned int currentDirection = 0;
+
+
 
 void setup() {
   //pin set up for motor
-  pinMode(rightDirectionPin, OUTPUT);
-  pinMode(rightMotorPin, OUTPUT);
-  pinMode(leftDirectionPin, OUTPUT);
-  pinMode(leftMotorPin, OUTPUT);
+  motorSetUp();
 
   Serial.begin(9600);
   pinMode(triggerPin, OUTPUT);
@@ -91,6 +75,7 @@ void echoISR() {
     echoDuration = micros() - startTime;
   }
 }
+
 
 //0 = stop, 1 = forward, 2 = reverse, 3 = left, 4 = right, 5 = slight left, 6 = slight right 
 void motorControl(unsigned int control)
@@ -149,72 +134,5 @@ void motorControl(unsigned int control)
 }
 
 
-void rightForwards(void)
-{
-  digitalWrite(rightDirectionPin, HIGH);
-  digitalWrite(rightMotorPin, HIGH);
-}
- 
-void leftForwards(void)
-{
-  digitalWrite(leftDirectionPin, LOW);
-  digitalWrite(leftMotorPin, HIGH);
-}
- 
-void rightBackwards()
-{
-  digitalWrite(rightDirectionPin, LOW);
-  digitalWrite(rightMotorPin, HIGH);
-}
- 
-void leftBackwards()
-{
-  digitalWrite(leftDirectionPin, HIGH);
-  digitalWrite(leftMotorPin, HIGH);
-}
- 
- 
-void goForward(void)
-{
-  rightForwards();
-  leftForwards();
-}
- 
-void goBackwards(void)
-{
-  rightBackwards();
-  leftBackwards();
-}
- 
-void turnLeft(void)
-{
-  leftForwards();
-  rightBackwards();
-}
- 
-void turnRight(void)
-{
-  rightForwards();
-  leftBackwards();
-}
- 
-void turnOffMotor(void)
-{
-  digitalWrite(rightMotorPin, LOW);
-  digitalWrite(leftMotorPin, LOW);
-}
-
-
-void slightRight()
-{
-    rightForwards();
-    digitalWrite(leftMotorPin, LOW);
-}
-
-void slightLeft()
-{
-    leftForward();
-    digitalWrite(rightMotorPin, LOW);
-}
 
  
