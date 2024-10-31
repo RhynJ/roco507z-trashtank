@@ -1,9 +1,4 @@
-#include <string.h>
-#include "motorControl.h"
-
-
-volatile long echoDuration = 0;
-const long distanceThreshold = 10;  // Set your distance threshold in cm
+;  // Set your distance threshold in cm
 unsigned long startTime = 0;
 //const int triggerPin = 10;
 const int frontUltraTrigger = 10;
@@ -36,6 +31,10 @@ void loop() {
 
   distanceFront = measureDistance(frontUltraTrigger, echoPinFront);
 
+  Serial.print("front dist: ");
+  Serial.print(distanceFront);
+  Serial.print("\n"); 
+
   if (distanceFront < distanceThreshold)
   {
     motorControl(0);
@@ -44,6 +43,10 @@ void loop() {
 
   distanceBack = measureDistance(backUltraTrigger, echoPinBack);
 
+  Serial.print("back dist: ");
+  Serial.print(distanceBack);
+  Serial.print("\n");
+
   if (distanceBack < distanceThreshold)
   {
     motorControl(0);
@@ -51,7 +54,7 @@ void loop() {
   }
 
 
-
+  delay(100);
 }
 
 
