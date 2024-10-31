@@ -90,13 +90,13 @@ void echoISR() {
 void backAvoidance(void)
 {
   //add code here to avoid an object 
-
+  Serial.print("now going forward");
 }
 
 void forwardAvoidance(void)
 {
   //add code here to avoid objects infront of the buggy
-
+  Serial.print("now going backwards");
 }
 
 
