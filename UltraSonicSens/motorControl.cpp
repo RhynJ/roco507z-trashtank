@@ -3,7 +3,8 @@
 
 //right motor pins
 const int rightDirectionPin = 12;
-const int rightMotorPin = 3; 
+const int rightMotorPin = 3;
+
 //left motor pins
 const int leftDirectionPin = 13;
 const int leftMotorPin = 11;
@@ -43,7 +44,6 @@ void leftBackwards()
   digitalWrite(leftDirectionPin, HIGH);
   digitalWrite(leftMotorPin, HIGH);
 }
- 
  
 void goForward(void)
 {
